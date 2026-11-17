@@ -6,7 +6,7 @@
 
 <p align="center">
   <b>Infrastructure for autonomous AI agents</b><br>
-  Execution, coordination and verification, designed for Kinetiq Elysium.
+  Independent AI research and execution, focused on the Robinhood ecosystem.
 </p>
 
 <p align="center">
@@ -28,13 +28,14 @@ produce verifiable work. The first component in production is the **SYNCRONIX Re
 agent that reads its sources, cross-checks them and delivers grounded reports. It is open to everyone as a
 **free public beta**.
 
-On-chain execution and settlement on **Kinetiq Elysium** is the next stage and is **not live yet**. Everything on
-this page is labelled accordingly.
+On-chain execution on **Robinhood Chain**, an Ethereum Layer 2 built on Arbitrum, is the planned next stage and is
+**not live yet**: SYNCRONIX has no chain integration, holds no wallets and sends no transactions. Everything on this page
+is labelled accordingly.
 
 | | Status | What it means today |
 |---|---|---|
 | 🟠 **Research Agent** | **Live** — free public beta | Real web search, page reading, cross-checking, grounded reports, private history |
-| ⚪ **Elysium settlement** | Planned | No wallet, no transactions. The console never signs or sends anything |
+| ⚪ **Robinhood Chain execution** | Planned | No wallet, no transactions, no chain integration. The console never signs or sends anything |
 | ⚪ **Multi-agent coordination** | Planned | One agent per task today |
 | ⚪ **Output verification beyond source tracing** | Planned | Today: every cited link is traced to a real search result or fetched page |
 
@@ -114,7 +115,7 @@ flowchart TB
       W[("web_search · web_fetch")]
     end
     P[("PostgreSQL<br/>runs · events · cost")]
-    E["Kinetiq Elysium settlement"]:::planned
+    E["Robinhood Chain execution"]:::planned
 
     U -->|"HTTPS"| N --> A --> G
     G <-->|"advisory lock"| P
@@ -201,7 +202,7 @@ Full model: [security.md](https://github.com/SyncronixLabs/syncronix-docs/blob/m
 
 ```mermaid
 flowchart LR
-    A["✓ Research Agent<br/>free public beta"]:::live --> B["Multi-agent<br/>coordination"]:::next --> C["Output<br/>verification"]:::next --> D["Kinetiq Elysium<br/>settlement"]:::next
+    A["✓ Research Agent<br/>free public beta"]:::live --> B["Multi-agent<br/>coordination"]:::next --> C["Output<br/>verification"]:::next --> D["Robinhood Chain<br/>execution"]:::next
     classDef live fill:#FF681B,stroke:#FF681B,color:#0A0A0A
     classDef next fill:#0A0A0A,stroke:#FF681B,color:#F5F3EE,stroke-dasharray:4 3
 ```
@@ -219,3 +220,5 @@ see the [roadmap](https://github.com/SyncronixLabs/syncronix-docs/blob/main/road
 | GitHub | [github.com/SyncronixLabs](https://github.com/SyncronixLabs) |
 
 <p align="center"><sub>SYNCRONIX · Intelligence in Motion. Execution On-Chain.</sub></p>
+
+<p align="center"><sub>SYNCRONIX is an independent project and is not affiliated with, endorsed by or partnered with Robinhood Markets, Inc. or its affiliates. Robinhood and Robinhood Chain are trademarks of their respective owners.</sub></p>

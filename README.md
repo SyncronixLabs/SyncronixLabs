@@ -25,14 +25,14 @@
 
 SYNCRONIX is autonomous intelligence for the Robinhood ecosystem: agents that take an objective, research it, verify
 the result and deliver work you can check. In production today, every run uses three agents (Researcher, Analyst and
-Verifier) with live **Robinhood Chain** data. It is open to everyone as a **free public beta**.
+Verifier) with live **Robinhood Chain** data. It is open to everyone, free.
 
 On-chain execution is the next stage and is **not live yet**. SYNCRONIX holds no keys and sends no transactions.
 Everything on this page is labelled accordingly.
 
 | | Status | What it means today |
 |---|---|---|
-| 🟠 **Research Agent** | **Live** — free public beta | Real web search, page reading, grounded reports, private history |
+| 🟠 **Research Agent** | **Live** | Real web search, page reading, grounded reports, private history |
 | 🟠 **Multi-agent coordination** | **Live** | Researcher, Analyst and Verifier on every run |
 | 🟠 **Output verification** | **Live** | Every claim checked against the sources actually read and cross-checked across independent sources |
 | 🟠 **Robinhood Chain data** | **Live** | Live network, address and transaction data in the console and in research |
@@ -84,7 +84,7 @@ Everything on this page is labelled accordingly.
 </tr>
 </table>
 
-## Public beta limits
+## Usage limits
 
 | Limit | Value | Resets |
 |---|---|---|
@@ -94,7 +94,7 @@ Everything on this page is labelled accordingly.
 | Cost ceiling per run | **$0.20** | — |
 
 The console shows your remaining run and explains any limit with its reset time.
-Details: [public beta](https://github.com/SyncronixLabs/syncronix-docs/blob/main/public-beta.md).
+Details: [usage limits](https://github.com/SyncronixLabs/syncronix-docs/blob/main/limits.md).
 
 ## System architecture
 
@@ -192,7 +192,7 @@ Full model: [security.md](https://github.com/SyncronixLabs/syncronix-docs/blob/m
 
 | Repository | Purpose |
 |---|---|
-| 📘 [**syncronix-docs**](https://github.com/SyncronixLabs/syncronix-docs) | Architecture, research agent, public API, beta limits, security model, roadmap |
+| 📘 [**syncronix-docs**](https://github.com/SyncronixLabs/syncronix-docs) | Architecture, research agent, public API, usage limits, security model, roadmap |
 | 🔬 [**syncronix-research**](https://github.com/SyncronixLabs/syncronix-research) | Engineering notes with measurements: grounded web research, atomic budget admission |
 | 📊 [**syncronix-benchmarks**](https://github.com/SyncronixLabs/syncronix-benchmarks) | Research-quality harness, metric definitions, measured results |
 | 🧩 [**syncronix-examples**](https://github.com/SyncronixLabs/syncronix-examples) | Public API client and curl, plus a minimal grounded research agent |
@@ -202,7 +202,7 @@ Full model: [security.md](https://github.com/SyncronixLabs/syncronix-docs/blob/m
 
 ```mermaid
 flowchart LR
-    A["✓ Research Agent<br/>free public beta"]:::live --> B["✓ Multi-agent<br/>coordination"]:::live --> C["✓ Output<br/>verification"]:::live --> F["✓ Robinhood Chain<br/>data"]:::live --> W["Wallet<br/>transfers"]:::next --> D["Robinhood Chain<br/>execution"]:::next
+    A["✓ Research Agent"]:::live --> B["✓ Multi-agent<br/>coordination"]:::live --> C["✓ Output<br/>verification"]:::live --> F["✓ Robinhood Chain<br/>data"]:::live --> W["Wallet<br/>transfers"]:::next --> D["Robinhood Chain<br/>execution"]:::next
     classDef live fill:#FF681B,stroke:#FF681B,color:#0A0A0A
     classDef next fill:#0A0A0A,stroke:#FF681B,color:#F5F3EE,stroke-dasharray:4 3
 ```

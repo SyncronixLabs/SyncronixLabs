@@ -23,21 +23,21 @@
 
 ## Overview
 
-SYNCRONIX is building infrastructure for autonomous AI agents: agents that take an objective, plan, act and
-produce verifiable work. The first component in production is the **SYNCRONIX Research Agent**, a live web-research
-agent that reads its sources, cross-checks them and delivers grounded reports. It is open to everyone as a
-**free public beta**.
+SYNCRONIX is autonomous intelligence for the Robinhood ecosystem: agents that take an objective, research it, verify
+the result and deliver work you can check. In production today, every run uses three agents (Researcher, Analyst and
+Verifier) with live **Robinhood Chain** data. It is open to everyone as a **free public beta**.
 
-On-chain execution on **Robinhood Chain**, an Ethereum Layer 2 built on Arbitrum, is the planned next stage and is
-**not live yet**: SYNCRONIX has no chain integration, holds no wallets and sends no transactions. Everything on this page
-is labelled accordingly.
+On-chain execution is the next stage and is **not live yet**. SYNCRONIX holds no keys and sends no transactions.
+Everything on this page is labelled accordingly.
 
 | | Status | What it means today |
 |---|---|---|
-| 🟠 **Research Agent** | **Live** — free public beta | Real web search, page reading, cross-checking, grounded reports, private history |
-| ⚪ **Robinhood Chain execution** | Planned | No wallet, no transactions, no chain integration. The console never signs or sends anything |
-| ⚪ **Multi-agent coordination** | Planned | One agent per task today |
-| ⚪ **Output verification beyond source tracing** | Planned | Today: every cited link is traced to a real search result or fetched page |
+| 🟠 **Research Agent** | **Live** — free public beta | Real web search, page reading, grounded reports, private history |
+| 🟠 **Multi-agent coordination** | **Live** | Researcher, Analyst and Verifier on every run |
+| 🟠 **Output verification** | **Live** | Every claim checked against the sources actually read and cross-checked across independent sources |
+| 🟠 **Robinhood Chain data** | **Live** | Live network, address and transaction data in the console and in research |
+| ⚪ **Wallet transfers** | Not live yet | Built; enabled only after a real transaction is verified end to end |
+| ⚪ **Robinhood Chain execution** | Planned | SYNCRONIX never holds keys and sends no transactions |
 
 ## What runs in production
 
@@ -202,12 +202,12 @@ Full model: [security.md](https://github.com/SyncronixLabs/syncronix-docs/blob/m
 
 ```mermaid
 flowchart LR
-    A["✓ Research Agent<br/>free public beta"]:::live --> B["Multi-agent<br/>coordination"]:::next --> C["Output<br/>verification"]:::next --> D["Robinhood Chain<br/>execution"]:::next
+    A["✓ Research Agent<br/>free public beta"]:::live --> B["✓ Multi-agent<br/>coordination"]:::live --> C["✓ Output<br/>verification"]:::live --> F["✓ Robinhood Chain<br/>data"]:::live --> W["Wallet<br/>transfers"]:::next --> D["Robinhood Chain<br/>execution"]:::next
     classDef live fill:#FF681B,stroke:#FF681B,color:#0A0A0A
     classDef next fill:#0A0A0A,stroke:#FF681B,color:#F5F3EE,stroke-dasharray:4 3
 ```
 
-Only the first stage is live. Items move to *live* when they run in production;
+The first four stages are live. Items move to *live* when they run in production;
 see the [roadmap](https://github.com/SyncronixLabs/syncronix-docs/blob/main/roadmap.md).
 
 ## Official links

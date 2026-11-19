@@ -25,7 +25,9 @@
 
 SYNCRONIX is autonomous intelligence for the Robinhood ecosystem: agents that take an objective, research it, verify
 the result and deliver work you can check. In production today, every run uses three agents (Researcher, Analyst and
-Verifier) with live **Robinhood Chain** data. It is open to everyone, free.
+Verifier) with live **Robinhood Chain** data. Any Robinhood Chain address can be looked up with **Wallet
+Intelligence** and a **5-hop Funding Trace**, computed without AI; an **AI wallet analysis** runs only when you ask
+for it. It is open to everyone, free.
 
 On-chain execution is the next stage and is **not live yet**. SYNCRONIX holds no keys and sends no transactions.
 Everything on this page is labelled accordingly.
@@ -36,7 +38,10 @@ Everything on this page is labelled accordingly.
 | 🟠 **Multi-agent coordination** | **Live** | Researcher, Analyst and Verifier on every run |
 | 🟠 **Output verification** | **Live** | Every claim checked against the sources actually read and cross-checked across independent sources |
 | 🟠 **Robinhood Chain data** | **Live** | Live network, address and transaction data in the console and in research |
-| ⚪ **Wallet transfers** | Not live yet | Built; enabled only after a real transaction is verified end to end |
+| 🟠 **Wallet Intelligence** | **Live** | Transaction history, ETH inflows and outflows incl. internal transfers, contract interactions; Robinscan links |
+| 🟠 **Funding Trace** | **Live** | First funder, funding timeline, up to 5 hops upstream, shared funders, interactive graph: verified vs. inferred |
+| 🟠 **AI wallet analysis** | **Live, opt-in** | Runs only on an explicit click, after a cost estimate; inside the daily budgets |
+| ⚪ **Wallet transfers** | Disabled | Built; enabled only after a real transaction is verified end to end |
 | ⚪ **Robinhood Chain execution** | Planned | SYNCRONIX never holds keys and sends no transactions |
 
 ## What runs in production
@@ -82,6 +87,28 @@ Everything on this page is labelled accordingly.
 
 </td>
 </tr>
+<tr>
+<td width="50%" valign="top">
+
+**Wallet Intelligence & Funding Trace**
+- Indexed history (Blockscout API) cross-checked against the **official RPC**
+- First funder marked *proven* only when the indexed history is complete
+- Upstream path up to **5 hops**, each with a stated stop reason
+- **Verified** transfers and **inferred** shared-funder links kept apart, never presented as ownership
+- Every link goes to **Robinscan**; no AI involved
+
+</td>
+<td width="50%" valign="top">
+
+**Opt-in AI wallet analysis**
+- Estimated and maximum cost shown **before** anything runs
+- One `claude-haiku-5-5` call, only after you click *Analyze with AI*
+- Written from a fact sheet built in code; links not in it are removed
+- Measured: **$0.0013–$0.0014** per brief
+- Counts toward your daily run and the shared budget
+
+</td>
+</tr>
 </table>
 
 ## Usage limits
@@ -92,6 +119,8 @@ Everything on this page is labelled accordingly.
 | Runs in progress across the service | **1** | when the run finishes |
 | Shared daily budget (model + search usage) | **$0.50** | 00:00 UTC |
 | Cost ceiling per run | **$0.20** | — |
+| Wallet lookups / funding traces per visitor (no AI) | **30 / 6 per minute** | rolling minute |
+| AI wallet analysis | counts as your **1 daily run**; reserve of 2× its maximum cost | 00:00 UTC |
 
 The console shows your remaining run and explains any limit with its reset time.
 Details: [usage limits](https://github.com/SyncronixLabs/syncronix-docs/blob/main/limits.md).
@@ -115,6 +144,12 @@ flowchart TB
       W[("web_search · web_fetch")]
     end
     P[("PostgreSQL<br/>runs · events · cost")]
+    subgraph CHAIN["Robinhood Chain data (read-only)"]
+      WI["Wallet Intelligence<br/>Funding Trace · no AI"]
+      IX[("Blockscout API")]
+      RPC[("Official RPC")]
+    end
+    WA["AI wallet analysis<br/>opt-in · claude-haiku-5-5"]
     E["Robinhood Chain execution"]:::planned
 
     U -->|"HTTPS"| N --> A --> G
@@ -124,6 +159,10 @@ flowchart TB
     R --> V --> P
     V ==>|"Server-Sent Events"| U
     R -. "planned" .-> E
+    A --> WI
+    WI --> IX & RPC
+    A -. "explicit click" .-> G -. "admitted" .-> WA
+    WA --> WI
 
     classDef default fill:#111111,stroke:#3a3a3a,color:#F5F3EE
     classDef planned fill:#0A0A0A,stroke:#FF681B,color:#FF681B,stroke-dasharray:4 3
@@ -132,6 +171,7 @@ flowchart TB
     style EDGE fill:#0A0A0A,stroke:#2a2a2a,color:#9a9a9a
     style APP fill:#0A0A0A,stroke:#FF681B,color:#FF681B
     style AI fill:#0A0A0A,stroke:#2a2a2a,color:#9a9a9a
+    style CHAIN fill:#0A0A0A,stroke:#2a2a2a,color:#9a9a9a
 ```
 
 ## Agent execution flow
@@ -172,6 +212,9 @@ sequenceDiagram
 | Private history | Random httpOnly owner token (hashed at rest); other visitors' runs return 404 |
 | Prompt injection | Web content declared untrusted; the agent has no tools that act |
 | Report rendering | Markdown without raw HTML; http(s) links only; `noopener` on external links |
+| Indexer key | Server-side only; fixed path allowlist, per-lookup call budgets, daily allowance and credit floor |
+| AI spend on wallets | No model call without an explicit click; estimate first; same atomic admission as research runs |
+| Wallet transactions | Disabled in production; SYNCRONIX holds no keys and cannot sign or broadcast |
 | Transport | HTTPS + HSTS, Content-Security-Policy, X-Frame-Options DENY, request rate limiting |
 | Recovery | Daily database backups (14 days); immutable releases with one-step rollback |
 
@@ -185,6 +228,7 @@ Full model: [security.md](https://github.com/SyncronixLabs/syncronix-docs/blob/m
 | Application | Next.js 15.5 · React 19.1 · Node.js · Server-Sent Events |
 | Interface | Tailwind CSS 3.4 · GSAP 3.13 · Lenis · Three.js |
 | Data | PostgreSQL 16 (`pg`) · atomic admission under advisory locks |
+| Chain data | Robinhood Chain official RPC (read-only) · Blockscout API for indexed history · Robinscan for links · `claude-haiku-5-5` for opt-in wallet briefs |
 | Operations | Ubuntu 24.04 · nginx · systemd · Let's Encrypt · daily `pg_dump` backups |
 | Quality | Playwright-driven browser suite · axe-core accessibility audit · offline agent tests · security and concurrency suites |
 
@@ -192,22 +236,22 @@ Full model: [security.md](https://github.com/SyncronixLabs/syncronix-docs/blob/m
 
 | Repository | Purpose |
 |---|---|
-| 📘 [**syncronix-docs**](https://github.com/SyncronixLabs/syncronix-docs) | Architecture, research agent, public API, usage limits, security model, roadmap |
-| 🔬 [**syncronix-research**](https://github.com/SyncronixLabs/syncronix-research) | Engineering notes with measurements: grounded web research, atomic budget admission |
-| 📊 [**syncronix-benchmarks**](https://github.com/SyncronixLabs/syncronix-benchmarks) | Research-quality harness, metric definitions, measured results |
-| 🧩 [**syncronix-examples**](https://github.com/SyncronixLabs/syncronix-examples) | Public API client and curl, plus a minimal grounded research agent |
+| 📘 [**syncronix-docs**](https://github.com/SyncronixLabs/syncronix-docs) | Architecture, research agent, Wallet Intelligence, public API, usage limits, security model, roadmap |
+| 🔬 [**syncronix-research**](https://github.com/SyncronixLabs/syncronix-research) | Engineering notes with measurements: grounded web research, atomic budget admission, proving a wallet's first funder |
+| 📊 [**syncronix-benchmarks**](https://github.com/SyncronixLabs/syncronix-benchmarks) | Research-quality and Wallet Intelligence harnesses, metric definitions, measured results |
+| 🧩 [**syncronix-examples**](https://github.com/SyncronixLabs/syncronix-examples) | Public API client and curl, a Wallet Intelligence client, plus a minimal grounded research agent |
 | 🔒 syncronix-app | Production application (private) |
 
 ## Roadmap
 
 ```mermaid
 flowchart LR
-    A["✓ Research Agent"]:::live --> B["✓ Multi-agent<br/>coordination"]:::live --> C["✓ Output<br/>verification"]:::live --> F["✓ Robinhood Chain<br/>data"]:::live --> W["Wallet<br/>transfers"]:::next --> D["Robinhood Chain<br/>execution"]:::next
+    A["✓ Research Agent"]:::live --> B["✓ Multi-agent<br/>coordination"]:::live --> C["✓ Output<br/>verification"]:::live --> F["✓ Robinhood Chain<br/>data"]:::live --> I["✓ Wallet Intelligence<br/>+ Funding Trace"]:::live --> W["Wallet<br/>transfers"]:::next --> D["Robinhood Chain<br/>execution"]:::next
     classDef live fill:#FF681B,stroke:#FF681B,color:#0A0A0A
     classDef next fill:#0A0A0A,stroke:#FF681B,color:#F5F3EE,stroke-dasharray:4 3
 ```
 
-The first four stages are live. Items move to *live* when they run in production;
+The first five stages are live. Items move to *live* when they run in production;
 see the [roadmap](https://github.com/SyncronixLabs/syncronix-docs/blob/main/roadmap.md).
 
 ## Official links

@@ -29,8 +29,9 @@ Verifier) with live **Robinhood Chain** data. Any Robinhood Chain address can be
 Intelligence** and a **5-hop Funding Trace**, computed without AI; an **AI wallet analysis** runs only when you ask
 for it. It is open to everyone, free.
 
-**Wallet transfers** are live: one native ETH transfer at a time that you preview, confirm and sign in your own wallet.
-Autonomous AI execution is the next stage and is **not live yet**. SYNCRONIX holds no keys and never signs.
+**Wallet-approved transfers** are live on Robinhood Chain mainnet and verified there with a real transfer: one native
+ETH transfer at a time that you preview, confirm and sign in your own wallet.
+**Autonomous AI execution**, where agents would plan and carry out actions themselves, is the next stage and is **not live yet**. SYNCRONIX holds no keys and never signs.
 Everything on this page is labelled accordingly.
 
 | | Status | What it means today |
@@ -42,7 +43,7 @@ Everything on this page is labelled accordingly.
 | 🟠 **Wallet Intelligence** | **Live** | Transaction history, ETH inflows and outflows incl. internal transfers, contract interactions; Robinscan links |
 | 🟠 **Funding Trace** | **Live** | First funder, funding timeline, up to 5 hops upstream, shared funders, interactive graph: verified vs. inferred |
 | 🟠 **AI wallet analysis** | **Live, opt-in** | Runs only on an explicit click, after a cost estimate; inside the daily budgets |
-| 🟠 **Wallet transfers** | **Live** | Native ETH on mainnet and testnet; you preview, confirm and sign in your own wallet; no AI, no server keys |
+| 🟠 **Wallet-approved transfers** | **Live, verified on mainnet** | Native ETH on mainnet and testnet; you preview, confirm and sign in your own wallet; no AI, no server keys |
 | ⚪ **Autonomous AI execution** | Planned | Agents never sign; SYNCRONIX holds no keys |
 
 ## What runs in production
@@ -247,12 +248,12 @@ Full model: [security.md](https://github.com/SyncronixLabs/syncronix-docs/blob/m
 
 ```mermaid
 flowchart LR
-    A["✓ Research Agent"]:::live --> B["✓ Multi-agent<br/>coordination"]:::live --> C["✓ Output<br/>verification"]:::live --> F["✓ Robinhood Chain<br/>data"]:::live --> I["✓ Wallet Intelligence<br/>+ Funding Trace"]:::live --> W["Wallet<br/>transfers"]:::next --> D["Robinhood Chain<br/>execution"]:::next
+    A["✓ Research Agent"]:::live --> B["✓ Multi-agent<br/>coordination"]:::live --> C["✓ Output<br/>verification"]:::live --> F["✓ Robinhood Chain<br/>data"]:::live --> I["✓ Wallet Intelligence<br/>+ Funding Trace"]:::live --> W["✓ Wallet-approved<br/>transfers"]:::live --> D["Autonomous AI<br/>execution"]:::next
     classDef live fill:#FF681B,stroke:#FF681B,color:#0A0A0A
     classDef next fill:#0A0A0A,stroke:#FF681B,color:#F5F3EE,stroke-dasharray:4 3
 ```
 
-The first five stages are live. Items move to *live* when they run in production;
+The first six stages are live; autonomous AI execution is next. Items move to *live* when they run in production;
 see the [roadmap](https://github.com/SyncronixLabs/syncronix-docs/blob/main/roadmap.md).
 
 ## Official links

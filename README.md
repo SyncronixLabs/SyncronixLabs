@@ -6,7 +6,7 @@
 
 <p align="center">
   <b>Infrastructure for autonomous AI agents</b><br>
-  Independent AI research and execution, focused on the Robinhood ecosystem.
+  Verified AI research, wallet intelligence and wallet-approved transfers for the Robinhood ecosystem.
 </p>
 
 <p align="center">
@@ -15,6 +15,10 @@
   <a href="https://syncronixai.xyz/platform#console"><b>Live console</b></a>
   &nbsp;·&nbsp;
   <a href="https://github.com/SyncronixLabs/syncronix-docs"><b>Docs</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/SyncronixLabs/syncronix-docs/blob/main/whitepaper.md"><b>Whitepaper</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/SyncronixLabs/syncronix-docs/blob/main/getting-started.md"><b>Getting started</b></a>
   &nbsp;·&nbsp;
   <a href="https://x.com/SyncronixHq"><b>X / @SyncronixHq</b></a>
 </p>
@@ -82,7 +86,7 @@ Everything on this page is labelled accordingly.
 <td width="50%" valign="top">
 
 **Privacy by default**
-- No account, no tracking script, no wallet
+- No account, no tracking script; a wallet only to sign a transfer
 - History visible only to the browser that created it
 - Visitor networks stored only as a keyed hash, never raw IPs
 - Web content is treated as untrusted data by the agent
@@ -139,10 +143,11 @@ flowchart TB
       A["Request checks<br/>origin · JSON · validation"]
       G{{"Atomic admission<br/>budget incl. reserves · 1 active run · 1 run per visitor"}}
       R["Research agent loop<br/>protocol · read gate · $0.20 ceiling"]
-      V["Verification<br/>link tracing · read vs. seen · grounding"]
+      V["Analyst + Verifier<br/>quotes matched in code · cross-source · verdicts"]
+      X["Transfer preview<br/>read-only · never signs"]
     end
     subgraph AI["AI provider"]
-      C["Claude · claude-sonnet-5-5"]
+      C["Claude · claude-sonnet-5-5<br/>claude-haiku-5-5"]
       W[("web_search · web_fetch")]
     end
     P[("PostgreSQL<br/>runs · events · cost")]
@@ -152,13 +157,17 @@ flowchart TB
       RPC[("Official RPC")]
     end
     WA["AI wallet analysis<br/>opt-in · claude-haiku-5-5"]
-    E["Robinhood Chain execution"]:::planned
+    UW(["Your wallet<br/>you confirm and sign"])
+    E["Autonomous AI execution"]:::planned
 
     U -->|"HTTPS"| N --> A --> G
     G <-->|"advisory lock"| P
     G -->|"admitted"| R
     R <--> C <--> W
     R --> V --> P
+    V <--> C
+    A --> X --> RPC
+    U -->|"wallet-approved transfer"| UW --> RPC
     V ==>|"Server-Sent Events"| U
     R -. "planned" .-> E
     A --> WI
@@ -200,6 +209,9 @@ sequenceDiagram
     end
     M-->>S: grounded report
     S->>S: trace links · mark read sources · grounding stats
+    S->>M: Analyst: up to 8 claims, each with a verbatim quote
+    S->>S: Verifier: match quotes in page text · cross-check other domains
+    S->>M: Verifier verdict per claim, from that evidence only
     S->>D: save run · real cost replaces reserve
     S-->>V: event: done (report, sources, cost)
 ```
@@ -210,7 +222,7 @@ sequenceDiagram
 |---|---|
 | Secrets | Server-side only, in a root-owned environment file; automated checks scan client bundles and responses |
 | Budget abuse | Atomic admission with reservations; concurrency tests show no over-admission under simultaneous requests |
-| Cross-site abuse | Same-origin requirement for starting runs; JSON-only bodies with a field allow-list |
+| Cross-site abuse | `POST` endpoints accept only the site's own origin and no CORS headers are sent, so other websites cannot call the API from a browser (terminals and servers can); JSON-only bodies with a field allow-list |
 | Private history | Random httpOnly owner token (hashed at rest); other visitors' runs return 404 |
 | Prompt injection | Web content declared untrusted; the agent has no tools that act |
 | Report rendering | Markdown without raw HTML; http(s) links only; `noopener` on external links |
@@ -219,6 +231,7 @@ sequenceDiagram
 | Wallet transfers | Signed only in the user's wallet after an explicit confirmation; no server keys; mainnet capped at 0.05 ETH |
 | Transport | HTTPS + HSTS, Content-Security-Policy, X-Frame-Options DENY, request rate limiting |
 | Recovery | Daily database backups (14 days); immutable releases with one-step rollback |
+| Reporting | Private vulnerability reports through GitHub: [SECURITY.md](SECURITY.md) |
 
 Full model: [security.md](https://github.com/SyncronixLabs/syncronix-docs/blob/main/security.md).
 
@@ -226,7 +239,7 @@ Full model: [security.md](https://github.com/SyncronixLabs/syncronix-docs/blob/m
 
 | Layer | Technology |
 |---|---|
-| Agent | Claude (`claude-sonnet-5-5`) via the Anthropic SDK · Anthropic-hosted `web_search` / `web_fetch` · adaptive thinking · prompt caching |
+| Agents | Claude via the Anthropic SDK: Researcher `claude-sonnet-5-5`, Analyst and Verifier `claude-haiku-5-5` · Anthropic-hosted `web_search` / `web_fetch` · adaptive thinking · prompt caching |
 | Application | Next.js 15.5 · React 19.1 · Node.js · Server-Sent Events |
 | Interface | Tailwind CSS 3.4 · GSAP 3.13 · Lenis · Three.js |
 | Data | PostgreSQL 16 (`pg`) · atomic admission under advisory locks |
@@ -238,11 +251,23 @@ Full model: [security.md](https://github.com/SyncronixLabs/syncronix-docs/blob/m
 
 | Repository | Purpose |
 |---|---|
-| 📘 [**syncronix-docs**](https://github.com/SyncronixLabs/syncronix-docs) | Architecture, research agent, Wallet Intelligence, public API, usage limits, security model, roadmap |
+| 📘 [**syncronix-docs**](https://github.com/SyncronixLabs/syncronix-docs) | [Whitepaper](https://github.com/SyncronixLabs/syncronix-docs/blob/main/whitepaper.md), [getting started](https://github.com/SyncronixLabs/syncronix-docs/blob/main/getting-started.md), architecture, research agent, Wallet Intelligence, wallet transfers, public API, limits, security, roadmap, [changelog](https://github.com/SyncronixLabs/syncronix-docs/blob/main/CHANGELOG.md) |
 | 🔬 [**syncronix-research**](https://github.com/SyncronixLabs/syncronix-research) | Engineering notes with measurements: grounded web research, atomic budget admission, proving a wallet's first funder |
 | 📊 [**syncronix-benchmarks**](https://github.com/SyncronixLabs/syncronix-benchmarks) | Research-quality and Wallet Intelligence harnesses, metric definitions, measured results |
 | 🧩 [**syncronix-examples**](https://github.com/SyncronixLabs/syncronix-examples) | Public API client and curl, a Wallet Intelligence client, plus a minimal grounded research agent |
 | 🔒 syncronix-app | Production application (private) |
+
+## Verified milestones
+
+| Date (UTC) | Milestone | Verified by |
+|---|---|---|
+| 2026-11-13 | Research Agent live, free, with a hard daily budget | Production runs; concurrency tests on real PostgreSQL |
+| 2026-11-17 | Researcher, Analyst and Verifier on every run; Robinhood Chain reads | Verifier results in every production run; chain ID checked on each read |
+| 2026-11-19 | Wallet Intelligence and Funding Trace | Production measurement: newest transaction matched the official RPC 5/5 |
+| 2026-11-20 | Wallet-approved transfers, testnet then mainnet | Real wallet-signed transfers read back from the official RPC, sent exactly as previewed |
+
+Details and evidence: [verified milestones](https://github.com/SyncronixLabs/syncronix-docs/blob/main/roadmap.md#verified-milestones) ·
+[changelog](https://github.com/SyncronixLabs/syncronix-docs/blob/main/CHANGELOG.md).
 
 ## Roadmap
 

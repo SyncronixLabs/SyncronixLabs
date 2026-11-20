@@ -29,7 +29,8 @@ Verifier) with live **Robinhood Chain** data. Any Robinhood Chain address can be
 Intelligence** and a **5-hop Funding Trace**, computed without AI; an **AI wallet analysis** runs only when you ask
 for it. It is open to everyone, free.
 
-On-chain execution is the next stage and is **not live yet**. SYNCRONIX holds no keys and sends no transactions.
+**Wallet transfers** are live: one native ETH transfer at a time that you preview, confirm and sign in your own wallet.
+Autonomous AI execution is the next stage and is **not live yet**. SYNCRONIX holds no keys and never signs.
 Everything on this page is labelled accordingly.
 
 | | Status | What it means today |
@@ -41,8 +42,8 @@ Everything on this page is labelled accordingly.
 | 🟠 **Wallet Intelligence** | **Live** | Transaction history, ETH inflows and outflows incl. internal transfers, contract interactions; Robinscan links |
 | 🟠 **Funding Trace** | **Live** | First funder, funding timeline, up to 5 hops upstream, shared funders, interactive graph: verified vs. inferred |
 | 🟠 **AI wallet analysis** | **Live, opt-in** | Runs only on an explicit click, after a cost estimate; inside the daily budgets |
-| ⚪ **Wallet transfers** | Disabled | Built; enabled only after a real transaction is verified end to end |
-| ⚪ **Robinhood Chain execution** | Planned | SYNCRONIX never holds keys and sends no transactions |
+| 🟠 **Wallet transfers** | **Live** | Native ETH on mainnet and testnet; you preview, confirm and sign in your own wallet; no AI, no server keys |
+| ⚪ **Autonomous AI execution** | Planned | Agents never sign; SYNCRONIX holds no keys |
 
 ## What runs in production
 
@@ -214,7 +215,7 @@ sequenceDiagram
 | Report rendering | Markdown without raw HTML; http(s) links only; `noopener` on external links |
 | Indexer key | Server-side only; fixed path allowlist, per-lookup call budgets, daily allowance and credit floor |
 | AI spend on wallets | No model call without an explicit click; estimate first; same atomic admission as research runs |
-| Wallet transactions | Disabled in production; SYNCRONIX holds no keys and cannot sign or broadcast |
+| Wallet transfers | Signed only in the user's wallet after an explicit confirmation; no server keys; mainnet capped at 0.05 ETH |
 | Transport | HTTPS + HSTS, Content-Security-Policy, X-Frame-Options DENY, request rate limiting |
 | Recovery | Daily database backups (14 days); immutable releases with one-step rollback |
 

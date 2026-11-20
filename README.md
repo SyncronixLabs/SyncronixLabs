@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://syncronixai.xyz">
-    <img src="assets/syncronix-banner.jpg" alt="SYNCRONIX — Intelligence in Motion. Execution On-Chain." width="100%">
+    <img src="assets/syncronix-banner.png" alt="SYNCRONIX — Intelligence in Motion. Execution On-Chain." width="100%">
   </a>
 </p>
 

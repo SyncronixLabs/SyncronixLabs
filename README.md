@@ -252,9 +252,9 @@ Full model: [security.md](https://github.com/SyncronixLabs/syncronix-docs/blob/m
 | Repository | Purpose |
 |---|---|
 | 📘 [**syncronix-docs**](https://github.com/SyncronixLabs/syncronix-docs) | [Whitepaper](https://github.com/SyncronixLabs/syncronix-docs/blob/main/whitepaper.md), [getting started](https://github.com/SyncronixLabs/syncronix-docs/blob/main/getting-started.md), architecture, research agent, Wallet Intelligence, wallet transfers, public API, limits, security, roadmap, [changelog](https://github.com/SyncronixLabs/syncronix-docs/blob/main/CHANGELOG.md) |
-| 🔬 [**syncronix-research**](https://github.com/SyncronixLabs/syncronix-research) | Engineering notes with measurements: grounded web research, atomic budget admission, proving a wallet's first funder |
-| 📊 [**syncronix-benchmarks**](https://github.com/SyncronixLabs/syncronix-benchmarks) | Research-quality and Wallet Intelligence harnesses, metric definitions, measured results |
-| 🧩 [**syncronix-examples**](https://github.com/SyncronixLabs/syncronix-examples) | Public API client and curl, a Wallet Intelligence client, plus a minimal grounded research agent |
+| 🔬 [**syncronix-research**](https://github.com/SyncronixLabs/syncronix-research) | Engineering notes with measurements: grounded web research, atomic budget admission, proving a wallet's first funder, fee headroom for a 60 s transfer preview |
+| 📊 [**syncronix-benchmarks**](https://github.com/SyncronixLabs/syncronix-benchmarks) | Research-quality, Wallet Intelligence, API conformance and fee-headroom harnesses, metric definitions, measured results |
+| 🧩 [**syncronix-examples**](https://github.com/SyncronixLabs/syncronix-examples) | Public API client and curl, a Wallet Intelligence client, a read-only transfer preview and receipt checker, plus a minimal grounded research agent |
 | 🔒 syncronix-app | Production application (private) |
 
 ## Verified milestones

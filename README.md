@@ -89,7 +89,7 @@ Everything on this page is labelled accordingly.
 
 **Cost discipline**
 - Every run reserves a **$0.20** ceiling before it starts
-- Shared **$0.50/day** budget, enforced atomically
+- **$3/day** AI budget released in 4 steps, a **$60/month** hard cap, enforced atomically with reserves
 - Measured cost of typical runs: **$0.04–$0.11**
 - Your identical repeat within an hour is replayed at $0
 
@@ -133,13 +133,15 @@ Everything on this page is labelled accordingly.
 | Limit | Value | Resets |
 |---|---|---|
 | Research runs per visitor (IPv4 address / IPv6 /64) | **1 per day** | 00:00 UTC |
-| Runs in progress across the service | **1** | when the run finishes |
-| Shared daily budget (model + search usage) | **$0.50** | 00:00 UTC |
-| Cost ceiling per run | **$0.20** | — |
+| AI wallet analyses per visitor | **3 per day**, separate from research | 00:00 UTC |
+| In progress across the service | **1** research run · **2** wallet analyses | when they finish |
+| Daily AI budget (model + search usage) | **$3.00**: $2.75 research, $0.25 wallet analysis; released in 4 steps | 00:00 UTC |
+| Monthly hard cap | **$60**, including reserves of work in progress | 1st of the month |
+| Cost ceiling per research run | **$0.20** | — |
+| Fair use | **$0.30** of AI usage per visitor, **6** AI runs per wider network (/24, /48) per day | 00:00 UTC |
 | Wallet lookups / funding traces per visitor (no AI) | **30 / 6 per minute** | rolling minute |
-| AI wallet analysis | counts as your **1 daily run**; reserve of 2× its maximum cost | 00:00 UTC |
 
-The console shows your remaining run and explains any limit with its reset time.
+The console shows what you have left and explains any limit with its reset time.
 Details: [usage limits](https://github.com/SyncronixLabs/syncronix-docs/blob/main/limits.md).
 
 ## System architecture
